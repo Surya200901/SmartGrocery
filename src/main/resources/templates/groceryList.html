@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Grocery List</title>
+</head>
+<body>
+<h1>Welcome, <span th:text="${user.username}"></span>!</h1>
+<p>Here's your grocery list:</p>
+<ul>
+    <li th:each="item : ${groceryItems}">
+        <span th:text="${item.itemName}"></span> (<span th:text="${item.quantity}"></span>)
+        <a th:href="@{/deleteGroceryItem/{id}(id=${item.id})}">Delete</a>
+    </li>
+</ul>
+
+<h2>Add a new item:</h2>
+<form th:action="@{/addGroceryItem}" method="post">
+    <label for="itemName">Item Name:</label>
+    <input type="text" id="itemName" name="itemName" required><br>
+
+    <label for="quantity">Quantity:</label>
+    <input type="number" id="quantity" name="quantity" required><br>
+
+    <button type="submit">Add Item</button>
+</form>
+
+</body>
+</html>
