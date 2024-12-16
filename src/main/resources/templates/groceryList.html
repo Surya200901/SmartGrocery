@@ -147,12 +147,12 @@
             font-size: 16px;
         }
 
-        .item-details {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            white-space: nowrap;
-        }
+		.item-details {
+		    display: flex;
+		    align-items: center;
+		    gap: 5px;
+		    white-space: nowrap;
+		}
 
         .item-name {
             margin-right: 5px;
@@ -162,17 +162,22 @@
             margin: 0;
         }
 
-        .delete-link, .edit-link {
-            margin-left: 10px;
-            color: #FF6347;
-            text-decoration: none;
-            font-weight: bold;
-            cursor: pointer;
-        }
+		.edit-link, .delete-link {
+		    margin-left: 10px;
+		    color: #FF6347;
+		    text-decoration: none;
+		    font-weight: bold;
+		    cursor: pointer;
+		}
+		
+		.action-buttons {
+		    display: flex; /* Use flexbox to align the buttons horizontally */
+		    gap: 10px; /* Space between the buttons */
+		}
 
-        .delete-link:hover, .edit-link:hover {
-            color: #D9534F;
-        }
+		.edit-link:hover, .delete-link:hover {
+		    color: #D9534F;
+		}
 
         /* Responsive design for smaller screens */
         @media (max-width: 600px) {
@@ -202,43 +207,49 @@
         <a href="/">Logout</a>
     </nav>
 </header>
+
 <div style="background: linear-gradient(to bottom right, #ffffff, #b2dfdb); padding: 20px; border-radius: 15px;">
-<h1>Welcome, <span th:text="${user.username}"></span>!</h1>
-<p style="text-align: center;">Here's your grocery list:</p>
-<input type="text" id="searchBar" placeholder="Search items..." onkeyup="filterItems()">
+    <h1>Welcome, <span th:text="${user.username}"></span>!</h1>
+    <p style="text-align: center;">Here's your grocery list:</p>
+    <input type="text" id="searchBar" placeholder="Search items..." onkeyup="filterItems()">
 
-<ul>
-    <li th:each="item : ${groceryItems}" id="groceryItem-${item.id}">
-        <span class="item-details">
-            <span class="item-name" th:text="${item.itemName}"></span>
-            (<span class="quantity" th:text="${item.quantity}"></span>)
-        </span>
-        <a class="edit-link" th:attr="onclick='editItem(${item.id})'">Edit</a>
-        <a class="delete-link" th:href="@{/deleteGroceryItem/{id}(id=${item.id})}" 
-           onclick="return confirm('Are you sure you want to delete this item?')">Delete</a>
-    </li>
-</ul>
+    <ul>
+        <th:block th:each="item : ${groceryItems}">
+            <li th:id="'groceryItem-' + ${item.id}">
+                <span class="item-details">
+                    <span class="item-name" th:text="${item.itemName}"></span>
+                    (<span class="quantity" th:text="${item.getQuantityWithUnit()}"></span>)
+                </span>
+				<div class="action-buttons">
+                <a class="edit-link" th:onclick="'editItem(' + ${item.id} + ')'" href="#">Edit</a>
+                <a class="delete-link" th:href="@{/deleteGroceryItem/{id}(id=${item.id})}"
+                   onclick="return confirm('Are you sure you want to delete this item?')">Delete</a>
+			   </div>
+            </li>
+        </th:block>
+    </ul>
 
-<h2>Add a new item:</h2>
-<form th:action="@{/addGroceryItem}" method="post">
-    <fieldset>
-        <label for="itemName">Item Name:</label>
-        <input type="text" id="itemName" name="itemName" placeholder="Enter item name" required><br>
+    <h2>Add a new item:</h2>
+    <form th:action="@{/addGroceryItem}" method="post">
+        <fieldset>
+            <label for="itemName">Item Name:</label>
+            <input type="text" id="itemName" name="itemName" placeholder="Enter item name" required><br>
 
-        <label for="quantity">Quantity:</label>
-        <input type="text" id="quantity" name="quantity" placeholder="Enter quantity" required><br>
+            <label for="quantity">Quantity:</label>
+            <input type="text" id="quantity" name="quantity" placeholder="Enter quantity" required><br>
 
-        <button type="submit">Add Item</button>
-    </fieldset>
-</form>
-<br>
+            <button type="submit">Add Item</button>
+        </fieldset>
+    </form>
+</div>
+
 <footer>
     <p>&copy; 2024 Smart Grocery List App<br>
-        <span style="background: linear-gradient(to right, #42a5f5, #66bb6a); 
-             background-clip: text; 
-             -webkit-text-fill-color: transparent; 
-             font-weight: bold;">
-             Developed by Surya_Settipalli
+        <span style="background: linear-gradient(to right, #42a5f5, #66bb6a);
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;">
+            Developed by Surya_Settipalli
         </span>
     </p>
 </footer>
@@ -254,40 +265,48 @@
     }
 
     function editItem(id) {
+        // Debugging statement to check the ID passed
+        console.log("Editing item with ID: " + id);
+        
         const itemElement = document.getElementById(`groceryItem-${id}`);
-        const itemNameElement = itemElement.querySelector('.item-name');
-        const quantityElement = itemElement.querySelector('.quantity');
 
-        const currentItemName = itemNameElement.textContent.trim();
-        const currentQuantity = quantityElement.textContent.trim();
+        // Check if itemElement exists
+        if (itemElement) {
+            const itemNameElement = itemElement.querySelector('.item-name');
+            const quantityElement = itemElement.querySelector('.quantity');
 
-        const newItemName = prompt('Edit Item Name:', currentItemName);
-        const newQuantity = prompt('Edit Quantity:', currentQuantity);
+            const currentItemName = itemNameElement.textContent.trim();
+            const currentQuantity = quantityElement ? quantityElement.textContent.trim() : '';
 
-        if (newItemName && newQuantity) {
-            // Update the item in the frontend
-            itemNameElement.textContent = newItemName;
-            quantityElement.textContent = newQuantity;
+            const newItemName = prompt('Edit Item Name:', currentItemName);
+            const newQuantity = prompt('Edit Quantity:', currentQuantity);
 
-            // Optional: You can add an AJAX call to update this item in the backend if necessary
-            // Example (assuming you have an endpoint to update an item):
-            fetch(`/updateGroceryItem/${id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    itemName: newItemName,
-                    quantity: newQuantity,
-                }),
-            }).then(response => {
-                if (!response.ok) {
-                    alert('Failed to update item.');
-                }
-            });
+            if (newItemName && newQuantity) {
+                fetch(`/updateGroceryItem/${id}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        itemName: newItemName,
+                        quantity: newQuantity,
+                    }),
+                }).then(response => {
+                    if (response.ok) {
+                        alert("Item updated successfully");
+                        itemNameElement.textContent = newItemName;
+                        quantityElement.textContent = newQuantity;
+                    } else {
+                        alert('Failed to update item');
+                    }
+                }).catch(error => {
+                    alert('Error: ' + error);
+                });
+            }
+        } else {
+            console.error("Item with ID " + id + " not found.");
         }
     }
 </script>
-
 </body>
 </html>

@@ -40,8 +40,9 @@ public class GroceryService {
     public void deleteItem(Long id) {
         groceryRepository.deleteById(id);
     }
-    
+
+    // Fetch all grocery items
     public List<GroceryItem> getAllItems() {
-        return groceryRepository.findAll();  // Retrieve all items from the repository
+        return groceryRepository.findAll();
     }
 }

@@ -14,13 +14,20 @@ public class GroceryItem {
     @Column(nullable = false)
     private String itemName;
 
-    private Integer quantity;
+    private Integer quantity; // Numeric value of quantity
+
+    private String unit; // Unit, e.g., "kg", "liters"
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    
- // Getter and Setter for id
+
+    // Getter for combined quantity with unit
+    public String getQuantityWithUnit() {
+        return quantity + (unit != null ? " " + unit : "");
+    }
+
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -28,8 +35,7 @@ public class GroceryItem {
     public void setId(Long id) {
         this.id = id;
     }
-    
- // Getter and Setter for itemName
+
     public String getItemName() {
         return itemName;
     }
@@ -38,7 +44,6 @@ public class GroceryItem {
         this.itemName = itemName;
     }
 
-    // Getter and Setter for quantity
     public Integer getQuantity() {
         return quantity;
     }
@@ -47,7 +52,14 @@ public class GroceryItem {
         this.quantity = quantity;
     }
 
-    // Getter and Setter for user
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
     public User getUser() {
         return user;
     }

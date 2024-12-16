@@ -25,7 +25,10 @@ public class SecurityConfig {
                 		"/register", "/login", "/error", 
                 		"/index",
                 		"/css/**", "/js/**",
-                		"/index").permitAll() 
+                		"/index",
+                		"/grocery",
+                		"/updateGroceryItem/**",
+                		"/updateGroceryItem/{id}").permitAll() 
                 .anyRequest().authenticated()
             )
             .formLogin(login -> login
@@ -35,8 +38,17 @@ public class SecurityConfig {
             )
             .logout(logout -> logout
                 .logoutSuccessUrl("/index")
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
                 .permitAll()
-            );
+            )
+            .exceptionHandling(exceptionHandling -> exceptionHandling
+                    .authenticationEntryPoint((request, response, authException) -> {
+                        response.sendRedirect("/login"); // Redirect to login if user is not authenticated
+                    })
+                )
+            .csrf(csrf -> csrf
+                .ignoringRequestMatchers("/updateGroceryItem/**")); // Disable CSRF for the specific endpoint
 
         return http.build();
     }
