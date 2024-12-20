@@ -48,6 +48,12 @@ public class GroceryService {
         return groceryRepository.findAll();
     }
     
+    public List<GroceryItem> getAllItems(User user) {
+        // Assuming you have a method to fetch items for the user
+        return groceryRepository.findByUser(user);  // Example code
+    }
+
+    
    /* 
     
  // Get items by status

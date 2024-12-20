@@ -1,174 +1,414 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Reminders</title>
-    <style>
-        /* Global styles */
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: auto;
-        }
+    <title>Smart Grocery App Reminders</title>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+	    <style>
+	        /* Global styles */
+	        body {
+	            font-family: 'Poppins', Arial, sans-serif;
+	            background: linear-gradient(135deg, #eef2f3, #8e9eab);
+	            color: #333;
+	            margin: 0;
+	            padding: 0;
+	            display: flex;
+	            justify-content: center;
+	            align-items: flex-start;
+	            height: 100vh;
+	            overflow: auto;
+	            scroll-behavior: smooth;
+	        }
 
-        /* Container */
-        .container {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            border-radius: 15px;
-            width: 85%;
-            max-width: 800px;
-            padding: 30px;
-            animation: fadeIn 1s ease-in-out;
-        }
+	        /* Container */
+	        .container {
+	            text-align: center;
+	            background: #ffffff;
+	            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+	            border-radius: 15px;
+	            width: 90%;
+	            max-width: 800px;
+	            padding: 30px;
+	            max-height: 85vh;
+	            overflow-y: auto;
+	            animation: fadeInUp 1s ease-out;
+	        }
 
-        /* Title */
-        h1 {
-            font-size: 2.8rem;
-            color: #4caf50;
-            margin-bottom: 20px;
-            font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
+	        /* Title */
+	        h1 {
+	            font-size: 3rem;
+	            color: #00509e;
+	            margin-bottom: 30px;
+	            font-weight: 700;
+	            letter-spacing: 1.5px;
+	            position: relative;
+	            text-transform: uppercase;
+	            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+	            animation: slideInFromLeft 1s ease-out;
+	        }
 
-        h2 {
-            font-size: 2rem;
-            color: #2196f3;
-            margin-top: 30px;
-            margin-bottom: 10px;
-            font-weight: 600;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-        }
+	        h1::after {
+	            content: '';
+	            position: absolute;
+	            width: 80px;
+	            height: 5px;
+	            background: #00509e;
+	            bottom: -8px;
+	            left: 50%;
+	            transform: translateX(-50%);
+	            animation: slideIn 1s ease-in-out;
+	        }
 
-        /* List styles */
-        ul {
-            list-style: none;
-            padding: 0;
-        }
+	        h2 {
+	            font-size: 1.8rem;
+	            color: #555;
+	            margin-top: 30px;
+	            margin-bottom: 15px;
+	            font-weight: 600;
+	        }
 
-        li {
-            font-size: 1.3rem;
-            color: #555;
-            margin: 15px 0;
-            animation: slideIn 1s ease-out;
-            background-color: #f4f4f4;
-            padding: 10px 15px;
-            border-radius: 10px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+	        /* Search Bar */
+	        .search-bar {
+	            width: 80%;
+	            padding: 12px;
+	            font-size: 1rem;
+	            border-radius: 25px;
+	            margin-bottom: 20px;
+	            border: 2px solid #d1d5db;
+	            outline: none;
+	            transition: all 0.3s ease;
+	        }
 
-        /* Hover effects for list items */
-        li:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
+	        .search-bar:focus {
+	            border-color: #00509e;
+	            box-shadow: 0 0 12px rgba(0, 80, 158, 0.5);
+	        }
 
-        /* Add colors for different stock statuses */
-        .low-stock {
-            background-color: #fff4e3;
-            border-left: 5px solid #ff9800;
-            color: #ff9800;
-            font-weight: bold;
-        }
+	        /* Image styling */
+	        .track-items-image {
+	            max-width: 100%;
+	            max-height: 300px;
+	            width: auto;
+	            height: auto;
+	            margin: 20px 0;
+	            border-radius: 15px;
+	            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+	            transition: transform 0.3s ease, box-shadow 0.3s ease;
+	        }
 
-        .out-of-stock {
-            background-color: #ffe3e3;
-            border-left: 5px solid #f44336;
-            color: #f44336;
-            font-weight: bold;
-        }
+	        .track-items-image:hover {
+	            transform: scale(1.05);
+	            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+	        }
 
-        /* Animation for list items */
-        @keyframes slideIn {
-            0% {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
+	        /* List styles */
+	        ul {
+	            list-style: none;
+	            padding: 0;
+	            margin: 0;
+	        }
 
-        /* Fade in effect for container */
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
+	        li {
+	            font-size: 1.2rem;
+	            color: #333;
+	            margin: 12px 0;
+	            background: #f4f6f9;
+	            padding: 15px;
+	            border-radius: 10px;
+	            display: flex;
+	            justify-content: space-between;
+	            align-items: center;
+	            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	            transition: transform 0.3s ease, box-shadow 0.3s ease;
+	            animation: fadeInList 0.8s ease-in-out;
+	        }
 
-        /* Image styling */
-        .reminder-image {
-            width: 60%;
-            max-width: 350px;
-            margin-bottom: 20px;
-            border-radius: 10px;
-            animation: bounceIn 1.5s ease-in-out;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
+	        li:hover {
+	            transform: translateY(-5px) scale(1.02);
+	            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+	        }
 
-        /* Bounce animation for images */
-        @keyframes bounceIn {
-            0% {
-                transform: scale(0.5);
-                opacity: 0;
-            }
-            50% {
-                transform: scale(1.1);
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
+	        .low-stock {
+	            background: #e0f7fa;
+	            border-left: 5px solid #26c6da;
+	            color: #00796b;
+	            font-weight: 500;
+	        }
 
-        /* Responsive design */
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 2.2rem;
-            }
+	        .out-of-stock {
+	            background: #ffebee;
+	            border-left: 5px solid #f44336;
+	            color: #b71c1c;
+	            font-weight: 500;
+	        }
 
-            h2 {
-                font-size: 1.5rem;
-            }
+	        /* Notification Bell */
+	        .notification-bell {
+	            position: fixed;
+	            top: 20px;
+	            right: 20px;
+	            background-color: #00509e;
+	            color: white;
+	            padding: 15px;
+	            border-radius: 50%;
+	            font-size: 1.8rem;
+	            cursor: pointer;
+	            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+	            animation: bounce 2s infinite;
+	        }
 
-            li {
-                font-size: 1.1rem;
-            }
+	        .notification-bell span {
+	            position: absolute;
+	            top: -5px;
+	            right: -5px;
+	            background-color: #ff5722;
+	            color: white;
+	            padding: 5px;
+	            border-radius: 50%;
+	            font-size: 0.9rem;
+	            font-weight: bold;
+	        }
 
-            .reminder-image {
-                width: 70%;
-            }
-        }
-    </style>
+	        /* Statistics Section */
+	        .stats {
+	            display: flex;
+	            justify-content: space-around;
+	            margin-top: 25px;
+	            padding: 20px;
+	            background: #f4f5f7;
+	            border-radius: 10px;
+	            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	        }
+
+	        .stat-card {
+	            text-align: center;
+	            padding: 20px;
+	            background: #fff;
+	            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	            border-radius: 10px;
+	            flex: 1;
+	            margin: 0 10px;
+	            transition: transform 0.3s ease, box-shadow 0.3s ease;
+	        }
+
+	        .stat-card:hover {
+	            transform: translateY(-5px) scale(1.05);
+	            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+	            animation: fadeInStats 1s ease-out;
+	        }
+
+	        /* Footer */
+	        footer {
+	            margin-top: 40px;
+	            background: #00509e;
+	            color: white;
+	            padding: 20px;
+	            text-align: center;
+	            font-size: 1rem;
+	            border-radius: 10px;
+	            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+	        }
+
+	        /* Animations */
+	        @keyframes fadeInUp {
+	            from {
+	                opacity: 0;
+	                transform: translateY(30px);
+	            }
+	            to {
+	                opacity: 1;
+	                transform: translateY(0);
+	            }
+	        }
+
+	        @keyframes fadeInList {
+	            from {
+	                opacity: 0;
+	                transform: translateY(15px);
+	            }
+	            to {
+	                opacity: 1;
+	                transform: translateY(0);
+	            }
+	        }
+
+	        @keyframes fadeInStats {
+	            from {
+	                opacity: 0;
+	                transform: scale(0.9);
+	            }
+	            to {
+	                opacity: 1;
+	                transform: scale(1);
+	            }
+	        }
+
+	        @keyframes slideIn {
+	            from {
+	                width: 0;
+	            }
+	            to {
+	                width: 60px;
+	            }
+	        }
+
+	        @keyframes bounce {
+	            0%, 100% {
+	                transform: translateY(0);
+	            }
+	            50% {
+	                transform: translateY(-10px);
+	            }
+	        }
+
+	        @media (max-width: 768px) {
+	            .stats {
+	                flex-direction: column;
+	            }
+
+	            .stat-card {
+	                margin-bottom: 15px;
+	            }
+
+	            h1 {
+	                font-size: 2rem;
+	            }
+
+	            h2 {
+	                font-size: 1.5rem;
+	            }
+
+	            .search-bar {
+	                width: 90%;
+	            }
+	        }
+
+	        @keyframes slideInFromLeft {
+	            from {
+	                opacity: 0;
+	                transform: translateX(-50px);
+	            }
+	            to {
+	                opacity: 1;
+	                transform: translateX(0);
+	            }
+	        }
+			
+			/* Search Bar Styles */
+	        .search-container {
+	            display: flex;
+	            justify-content: space-between;
+	            align-items: center;
+	            margin: 20px 0;
+	            gap: 10px;
+	        }
+
+	        .search-bar {
+	            flex: 1;
+	            padding: 10px;
+	            font-size: 1.2rem;
+	            border: 2px solid #4A90E2;
+	            border-radius: 10px;
+	            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	            transition: border-color 0.3s ease;
+	        }
+
+	        .search-bar:focus {
+	            outline: none;
+	            border-color: #feb47b;
+	        }
+
+	        .search-bar::placeholder {
+	            animation: runningPlaceholder 8s linear infinite;
+	            color: #bbb;
+	            font-style: italic;
+	        }
+	    </style>
+
 </head>
 <body>
 
     <div class="container">
+		<div style="background: linear-gradient(to bottom right, #a094e0, #b2dfdb); padding: 20px; border-radius: 15px;">
         <h1>Smart Grocery App Reminders</h1>
-
-        <img src="https://via.placeholder.com/350?text=Reminder+Image" alt="Reminder" class="reminder-image" />
-
+		
+		<img src="https://pics.craiyon.com/2024-09-04/Zh6K41QmR-y921wW8YQMzg.webp" alt="Track Items" class="track-items-image" />
+        
+		<!-- Search Bar -->
+		<div class="search-container">
+		     <input type="text" id="searchBar" class="search-bar" placeholder="Search for items..." oninput="filterItems()" />
+		</div>
         <h2>Low Stock Items</h2>
         <ul>
-            <li class="low-stock" th:each="item : ${lowStockItems}" th:text="${item.itemName} + ' (' + item.quantityWithUnit + ')'"></li>
+            <!-- Display low stock items with their quantity -->
+            <li class="low-stock" th:each="item : ${lowStockItems}" th:text="${item.itemName} + ' ( ' + ${item.quantityWithUnit} + ')'"></li>
         </ul>
 
         <h2>Out of Stock Items</h2>
         <ul>
+            <!-- Display out of stock items -->
             <li class="out-of-stock" th:each="item : ${outOfStockItems}" th:text="${item.itemName}"></li>
         </ul>
+
+		<!-- Statistics Section -->
+		<h2 style="text-align: center; color: #555; margin-bottom: 20px;">Stock Overview</h2>
+		<div class="stats">
+		    <div class="stat-card" style="background-color: #d1e7dd;">
+		        <h3>Total Items</h3>
+		        <p th:text="${totalItems}"></p>
+		    </div>
+		    <div class="stat-card" style="background-color: #fff3cd;">
+		        <h3>Low Stock</h3>
+		        <p th:text="${lowStockCount}"></p>
+		    </div>
+		    <div class="stat-card" style="background-color: #f8d7da;">
+		        <h3>Out of Stock</h3>
+		        <p th:text="${outOfStockCount}"></p>
+		    </div>
+		</div>
+
+        <!-- Footer -->
+        <footer>
+            <p>© 2024 Smart Grocery App. All rights reserved.</p>
+        </footer>
+
     </div>
+
+    <!-- Notification Bell -->
+    <a href="#" class="notification-bell">
+        <i class="fas fa-bell"></i><span>3</span>
+    </a>
+
+    <script>
+        // Search Bar functionality
+        document.querySelector('.search-bar').addEventListener('input', function() {
+            let searchQuery = this.value.toLowerCase();
+            let items = document.querySelectorAll('ul li');
+            
+            items.forEach(function(item) {
+                let itemText = item.textContent.toLowerCase();
+                if (itemText.includes(searchQuery)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+		
+		//Search barS
+		const searchBar = document.getElementById("searchBar");
+		        const text = "Search for items...";
+		        let index = 0;
+
+		        function typeText() {
+		            if (index <= text.length) {
+		                searchBar.setAttribute("placeholder", text.substring(0, index));
+		                index++;
+		            } else {
+		                index = 0; // Reset the index
+		            }
+		        }
+		        setInterval(typeText, 150); // Placeholder animation
+    </script>
 
 </body>
 </html>

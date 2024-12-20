@@ -148,8 +148,23 @@ public class GroceryController {
         String username = principal.getName();
         User user = userService.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
 
+        // Fetch all grocery items for the user
+        List<GroceryItem> allItems = groceryService.getAllItems(user);  // Use GroceryItem instead of Item
+        
+        // Calculate the total items, low stock, and out of stock items
+        long totalItems = allItems.size();
+        long lowStockCount = allItems.stream().filter(item -> item.getQuantity() < 3).count();  // Example threshold for low stock
+        long outOfStockCount = allItems.stream().filter(item -> item.getQuantity() == 0).count();  // Out of stock items
+
+        // Pass the calculated statistics to the model
+        model.addAttribute("totalItems", totalItems);
+        model.addAttribute("lowStockCount", lowStockCount);
+        model.addAttribute("outOfStockCount", outOfStockCount);
+
+        // Pass low stock and out of stock items to the model
         model.addAttribute("lowStockItems", groceryService.getLowStockItems(user));
         model.addAttribute("outOfStockItems", groceryService.getOutOfStockItems(user));
+        
         return "reminders";
     }
     /*
