@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -128,4 +129,62 @@ public class GroceryController {
         }
         return "";
     }
+    
+ // Track Items
+    @GetMapping("/trackItems")
+    public String trackItems(Model model, Principal principal) {
+        String username = principal.getName();
+        User user = userService.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
+
+        model.addAttribute("inStockItems", groceryService.getInStockItems(user));
+        model.addAttribute("lowStockItems", groceryService.getLowStockItems(user));
+        model.addAttribute("outOfStockItems", groceryService.getOutOfStockItems(user));
+        return "trackItems";
+    }
+
+    // Reminders
+    @GetMapping("/reminders")
+    public String showReminders(Model model, Principal principal) {
+        String username = principal.getName();
+        User user = userService.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
+
+        model.addAttribute("lowStockItems", groceryService.getLowStockItems(user));
+        model.addAttribute("outOfStockItems", groceryService.getOutOfStockItems(user));
+        return "reminders";
+    }
+    /*
+ // Track Items
+    @GetMapping("/trackItems")
+    public String trackItems(Model model, Principal principal) {
+        String username = principal.getName();
+        User user = userService.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Add details with quantities and units
+        List<String> inStockDetails = groceryService.getInStockItemDetails(user);
+        List<String> lowStockDetails = groceryService.getLowStockItemDetails(user);
+        List<String> outOfStockDetails = groceryService.getOutOfStockItemDetails(user);
+
+        model.addAttribute("inStockItems", inStockDetails);
+        model.addAttribute("lowStockItems", lowStockDetails);
+        model.addAttribute("outOfStockItems", outOfStockDetails);
+
+        return "trackItems";
+    }
+
+    // Reminders
+    @GetMapping("/reminders")
+    public String showReminders(Model model, Principal principal) {
+        String username = principal.getName();
+        User user = userService.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Add details with quantities and units
+        List<String> lowStockDetails = groceryService.getLowStockItemDetails(user);
+        List<String> outOfStockDetails = groceryService.getOutOfStockItemDetails(user);
+
+        model.addAttribute("lowStockItems", lowStockDetails);
+        model.addAttribute("outOfStockItems", outOfStockDetails);
+
+        return "reminders";
+    }
+    */
 }

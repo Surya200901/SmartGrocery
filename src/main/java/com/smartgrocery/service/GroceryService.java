@@ -28,11 +28,13 @@ public class GroceryService {
 
     // Add a new item
     public void addItem(GroceryItem item) {
+    	item.updateStatus();
         groceryRepository.save(item);
     }
 
     // Update an existing item
     public void updateItem(GroceryItem item) {
+    	item.updateStatus();
         groceryRepository.save(item);
     }
 
@@ -45,4 +47,71 @@ public class GroceryService {
     public List<GroceryItem> getAllItems() {
         return groceryRepository.findAll();
     }
+    
+   /* 
+    
+ // Get items by status
+    public List<GroceryItem> getLowStockItems(User user) {
+        return groceryRepository.findByUserAndStatus(user, "Low Stock");
+    }
+
+    public List<GroceryItem> getOutOfStockItems(User user) {
+        return groceryRepository.findByUserAndStatus(user, "Out of Stock");
+    }
+
+    public List<GroceryItem> getInStockItems(User user) {
+        return groceryRepository.findByUserAndStatus(user, "In Stock");
+    }
+    */
+//added items
+ /*   
+    public List<GroceryItem> getLowStockItems(User user) {
+        List<GroceryItem> items = groceryRepository.findByUser(user);
+        return items.stream()
+                .filter(item -> item.getQuantity() != null && item.getQuantity() < 3 && item.getQuantity() > 0)
+                .toList();
+    }
+
+    public List<GroceryItem> getOutOfStockItems(User user) {
+        List<GroceryItem> items = groceryRepository.findByUser(user);
+        return items.stream()
+                .filter(item -> item.getQuantity() != null && item.getQuantity() == 0)
+                .toList();
+    }
+
+    public List<GroceryItem> getInStockItems(User user) {
+        List<GroceryItem> items = groceryRepository.findByUser(user);
+        return items.stream()
+                .filter(item -> item.getQuantity() != null && item.getQuantity() >= 3)
+                .toList();
+    }
+*/
+    
+    public List<GroceryItem> getLowStockItems(User user) {
+        List<GroceryItem> items = groceryRepository.findByUser(user);
+        List<GroceryItem> lowStockItems = items.stream()
+            .filter(item -> item.getQuantity() != null && item.getQuantity() < 3 && item.getQuantity() > 0)
+            .toList();
+        System.out.println("Low Stock Items: " + lowStockItems); // Debug
+        return lowStockItems;
+    }
+
+    public List<GroceryItem> getOutOfStockItems(User user) {
+        List<GroceryItem> items = groceryRepository.findByUser(user);
+        List<GroceryItem> outOfStockItems = items.stream()
+            .filter(item -> item.getQuantity() != null && item.getQuantity() == 0)
+            .toList();
+        System.out.println("Out of Stock Items: " + outOfStockItems); // Debug
+        return outOfStockItems;
+    }
+
+    public List<GroceryItem> getInStockItems(User user) {
+        List<GroceryItem> items = groceryRepository.findByUser(user);
+        List<GroceryItem> inStockItems = items.stream()
+            .filter(item -> item.getQuantity() != null && item.getQuantity() >= 3)
+            .toList();
+        System.out.println("In Stock Items: " + inStockItems); // Debug
+        return inStockItems;
+    }
+
 }

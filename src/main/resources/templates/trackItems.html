@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Track Items</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: 'Verdana', sans-serif;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Gradient background */
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow-y: auto; /* Allow vertical scroll */
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Container styling */
+        .container {
+            background: linear-gradient(135deg, #ffffff, #f3f3f3);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            width: 90%;
+            max-width: 1000px;
+            text-align: center;
+            animation: fadeInUp 1.5s ease-in-out;
+            overflow-y: auto;
+            max-height: 90vh; /* Ensures scrollbar appears when content overflows */
+        }
+
+        /* Title styling */
+        h1 {
+            font-size: 3.2rem;
+            color: #4A90E2;
+            margin-bottom: 25px;
+            font-weight: 700;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        h3 {
+            font-size: 2rem;
+            color: #9debca;
+            margin-top: 30px;
+            margin-bottom: 10px;
+            font-weight: 600;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* List styling */
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            font-size: 1.2rem;
+            color: #333;
+            margin: 15px 0;
+            animation: fadeIn 1.2s ease-out;
+            padding: 12px;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Hover effect for list items */
+        li:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Color classes for different stock statuses */
+        .in-stock {
+            background: linear-gradient(135deg, #28a745, #45d678);
+            color: white;
+            font-weight: bold;
+        }
+
+        .low-stock {
+            background: linear-gradient(135deg, #ffc107, #ffd65a);
+            color: #333;
+            font-weight: bold;
+        }
+
+        .out-of-stock {
+            background: linear-gradient(135deg, #dc3545, #e57373);
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Animation for list items */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Animation for container */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Image styling */
+        .track-items-image {
+            width: 65%;
+            max-width: 400px;
+            margin-top: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 1.5s ease-in-out;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Hover effect for image */
+        .track-items-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            h3 {
+                font-size: 1.6rem;
+            }
+
+            li {
+                font-size: 1rem;
+            }
+
+            .track-items-image {
+                width: 80%;
+            }
+        }
+		
+		.container {
+		            position: relative;
+		            border: 4px solid;
+		            border-image: linear-gradient(135deg, #4A90E2, #FEB47B) 1;
+		        }
+
+				.section-header {
+				    display: flex;
+				    align-items: center;
+				    justify-content: flex-start; /* Aligns text and icon in a row */
+				    gap: 10px; /* Space between icon and text */
+				    margin-left: 15px; /* Optional: Adjust left alignment */
+				}
+
+				.section-header i {
+				    font-size: 1.6rem;
+				    color: #4A90E2;
+					line-height: 1;
+					vertical-align: middle;
+				    display: inline-flex; /* Ensure the icon aligns correctly */
+				}
+
+		        .divider {
+		            margin: 20px 0;
+		            border: 0;
+		            border-top: 2px solid #e0e0e0;
+		        }
+
+		        .footer {
+		            margin-top: 30px;
+		            padding: 15px;
+		            background: linear-gradient(135deg, #4A90E2, #FEB47B);
+		            color: white;
+		            border-radius: 0 0 15px 15px;
+		            font-size: 0.9rem;
+		            text-align: center;
+		        }
+
+		        .footer a {
+		            color: #fff;
+		            text-decoration: none;
+		            font-weight: bold;
+		            margin: 0 10px;
+		        }
+
+		        .footer a:hover {
+		            text-decoration: underline;
+		        }
+				
+				/* Search Bar Styles */
+	        .search-container {
+	            display: flex;
+	            justify-content: space-between;
+	            align-items: center;
+	            margin: 20px 0;
+	            gap: 10px;
+	        }
+
+	        .search-bar {
+	            flex: 1;
+	            padding: 10px;
+	            font-size: 1.2rem;
+	            border: 2px solid #4A90E2;
+	            border-radius: 10px;
+	            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	            transition: border-color 0.3s ease;
+	        }
+
+	        .search-bar:focus {
+	            outline: none;
+	            border-color: #feb47b;
+	        }
+
+	        .export-button {
+	            padding: 10px 20px;
+	            font-size: 1.2rem;
+	            color: white;
+	            background: linear-gradient(135deg, #28a745, #45d678);
+	            border: none;
+	            border-radius: 10px;
+	            cursor: pointer;
+	            transition: transform 0.3s ease, box-shadow 0.3s ease;
+	        }
+
+	        .export-button:hover {
+	            transform: scale(1.05);
+	            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+	        }
+
+	        /* Running text animation for placeholder */
+	        @keyframes runningPlaceholder {
+	            0%, 20% {
+	                content: "Search for items...";
+	            }
+	            25%, 45% {
+	                content: "Filter your items...";
+	            }
+	            50%, 70% {
+	                content: "Find your products...";
+	            }
+	            75%, 100% {
+	                content: "Look up items...";
+	            }
+	        }
+
+	        .search-bar::placeholder {
+	            animation: runningPlaceholder 8s linear infinite;
+	            color: #bbb;
+	            font-style: italic;
+	        }
+			
+			.search-bar {
+			            flex: 1;
+			            padding: 10px;
+			            font-size: 1.2rem;
+			            border: 2px solid #4A90E2;
+			            border-radius: 10px;
+			            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			        }
+
+			        .search-bar:focus {
+			            outline: none;
+			            border-color: #feb47b;
+			        }
+
+	        /* Responsive styles for the search container */
+	        @media (max-width: 600px) {
+	            .search-container {
+	                flex-direction: column;
+	                gap: 15px;
+	            }
+	        }
+			
+			/* Category filter styles */
+			        .category-filter {
+			            margin-bottom: 20px;
+			            display: flex;
+			            justify-content: space-between;
+			            align-items: center;
+			            gap: 10px;
+			        }
+
+			        .category-dropdown {
+			            padding: 10px;
+			            font-size: 1.2rem;
+			            border: 2px solid #4A90E2;
+			            border-radius: 10px;
+			            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			        }
+
+			        .category-dropdown:focus {
+			            outline: none;
+			            border-color: #feb47b;
+			        }
+
+			        .tooltip {
+			            position: absolute;
+			            background-color: rgba(0, 0, 0, 0.75);
+			            color: #fff;
+			            padding: 5px;
+			            border-radius: 5px;
+			            font-size: 1rem;
+			            visibility: hidden;
+			            opacity: 0;
+			            transition: opacity 0.3s;
+			        }
+
+			        .tooltip.visible {
+			            visibility: visible;
+			            opacity: 1;
+			        }
+    </style>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	</head>
+	<body>
+    <div class="container">
+        <div style="background: linear-gradient(to bottom right, #906b96, #b2dfdb); padding: 20px; border-radius: 15px;">
+            <h1>Track Your Items</h1>
+
+            <img src="https://i.imgur.com/LwYWlKL.png" alt="Track Items" class="track-items-image" />
+			
+			<!-- New Category Filter Dropdown -->
+	        <div class="category-filter">
+	            <select class="category-dropdown" id="categoryFilter" onchange="filterByCategory()">
+	                <option value="">Select Category</option>
+	                <option value="in-stock">In Stock</option>
+	                <option value="low-stock">Low Stock</option>
+	                <option value="out-of-stock">Out of Stock</option>
+	            </select>
+			</div>
+			
+            <!-- Search Bar and Export Button -->
+            <div class="search-container">
+                <input type="text" id="searchBar" class="search-bar" placeholder="Search for items..." oninput="filterItems()" />
+                <button class="export-button" onclick="exportToCSV()">Export to CSV</button>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="section-header">
+                <i class="fas fa-check-circle"></i>
+                <h3>In Stock Items</h3>
+            </div>
+            <ul id="inStockList">
+                <li class="in-stock" th:each="item : ${inStockItems}" th:text="${item.itemName + ' (' + item.quantityWithUnit + ')'}"></li>
+            </ul>
+
+            <div class="divider"></div>
+
+            <div class="section-header">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h3>Low Stock Items</h3>
+            </div>
+            <ul id="lowStockList">
+                <li class="low-stock" th:each="item : ${lowStockItems}" th:text="${item.itemName + ' (' + item.quantityWithUnit + ')'}"></li>
+            </ul>
+
+            <div class="divider"></div>
+
+            <div class="section-header">
+                <i class="fas fa-times-circle"></i>
+                <h3>Out of Stock Items</h3>
+            </div>
+            <ul id="outOfStockList">
+                <li class="out-of-stock" th:each="item : ${outOfStockItems}" th:text="${item.itemName}"></li>
+            </ul>
+        </div>
+        <div class="footer">
+            <span>&copy; 2024 Smart Grocery App | <a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a></span>
+        </div>
+    </div>
+
+	    <script>
+			
+	const searchBar = document.getElementById("searchBar");
+	        const text = "Search for items..."; // Text to display
+	        let index = 0;
+
+	        function typeText() {
+	            if (index <= text.length) {
+	                searchBar.setAttribute("placeholder", text.substring(0, index));
+	                index++;
+	            } else {
+	                index = 0; // Reset the index to start over
+	            }
+	        }
+
+	        setInterval(typeText, 150); // Adjust speed (in milliseconds) as needed
+	        
+			// Filter items function
+	        function filterItems() {
+	            const searchTerm = document.getElementById('searchBar').value.toLowerCase();
+	            const itemLists = ['inStockList', 'lowStockList', 'outOfStockList'];
+
+	            itemLists.forEach(listId => {
+	                const list = document.getElementById(listId);
+	                const items = list.getElementsByTagName('li');
+	                Array.from(items).forEach(item => {
+	                    if (item.textContent.toLowerCase().includes(searchTerm)) {
+	                        item.style.display = '';
+	                    } else {
+	                        item.style.display = 'none';
+	                    }
+	                });
+	            });
+	        }
+
+	        // Export items to CSV
+	        function exportToCSV() {
+	            const headers = ['Category', 'Item Name'];
+	            const rows = [];
+
+	            const addRows = (listId, category) => {
+	                const list = document.getElementById(listId);
+	                const items = list.getElementsByTagName('li');
+	                Array.from(items).forEach(item => {
+	                    rows.push([category, item.textContent]);
+	                });
+	            };
+
+	            addRows('inStockList', 'In Stock');
+	            addRows('lowStockList', 'Low Stock');
+	            addRows('outOfStockList', 'Out of Stock');
+
+	            let csvContent = 'data:text/csv;charset=utf-8,';
+	            csvContent += headers.join(',') + '\n';
+	            rows.forEach(row => {
+	                csvContent += row.join(',') + '\n';
+	            });
+
+	            const encodedUri = encodeURI(csvContent);
+	            const link = document.createElement('a');
+	            link.setAttribute('href', encodedUri);
+	            link.setAttribute('download', 'items.csv');
+	            document.body.appendChild(link);
+	            link.click();
+	            document.body.removeChild(link);
+	        }
+			
+			// Filter by Category
+			function filterByCategory() {
+			    const category = document.getElementById('categoryFilter').value;
+			    const itemLists = ['inStockList', 'lowStockList', 'outOfStockList'];
+
+			    itemLists.forEach(listId => {
+			        const list = document.getElementById(listId);
+			        const items = list.getElementsByTagName('li');
+			        Array.from(items).forEach(item => {
+			            // Check if the category is selected and whether the item has the correct class
+			            if (category === "" || item.classList.contains(category)) {
+			                item.style.display = ''; // Show item
+			            } else {
+			                item.style.display = 'none'; // Hide item
+			            }
+			        });
+			    });
+			}
+
+	        // Show Tooltip
+	        function showTooltip(event, status) {
+	            const tooltip = document.getElementById('tooltip');
+	            tooltip.innerText = `This item is ${status}`;
+	            tooltip.style.top = `${event.clientY + 10}px`;
+	            tooltip.style.left = `${event.clientX + 10}px`;
+	            tooltip.classList.add('visible');
+	        }
+
+	        // Hide Tooltip
+	        function hideTooltip() {
+	            const tooltip = document.getElementById('tooltip');
+	            tooltip.classList.remove('visible');
+	        }
+	    </script>
+	</body>
+</html>

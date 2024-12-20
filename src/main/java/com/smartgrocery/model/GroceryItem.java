@@ -17,6 +17,8 @@ public class GroceryItem {
     private Integer quantity; // Numeric value of quantity
 
     private String unit; // Unit, e.g., "kg", "liters"
+    
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -25,6 +27,28 @@ public class GroceryItem {
     // Getter for combined quantity with unit
     public String getQuantityWithUnit() {
         return quantity + (unit != null ? " " + unit : "");
+    }
+    
+    @Override
+    public String toString() {
+        return "GroceryItem{" +
+                "id=" + id +
+                ", itemName='" + itemName + '\'' +
+                ", quantity=" + quantity +
+                ", unit='" + unit + '\'' +
+                ", status='" + status + '\'' +
+                // Excluding 'user' to avoid recursion
+                '}';
+    }
+    
+    public void updateStatus() {
+        if (quantity == 0) {
+            this.status = "Out of Stock";
+        } else if (quantity < 3) {
+            this.status = "Low Stock";
+        } else {
+            this.status = "In Stock";
+        }
     }
 
     // Getters and Setters
@@ -67,4 +91,5 @@ public class GroceryItem {
     public void setUser(User user) {
         this.user = user;
     }
+       
 }

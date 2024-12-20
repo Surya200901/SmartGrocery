@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface GroceryRepository extends JpaRepository<GroceryItem, Long> {
     List<GroceryItem> findByUser(User user);  // Method to fetch grocery items by user
+    List<GroceryItem> findByUserAndStatus(User user, String status);  // Filter by status
 }

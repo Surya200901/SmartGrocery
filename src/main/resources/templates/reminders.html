@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Reminders</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: auto;
+        }
+
+        /* Container */
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            width: 85%;
+            max-width: 800px;
+            padding: 30px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* Title */
+        h1 {
+            font-size: 2.8rem;
+            color: #4caf50;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: #2196f3;
+            margin-top: 30px;
+            margin-bottom: 10px;
+            font-weight: 600;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        /* List styles */
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            font-size: 1.3rem;
+            color: #555;
+            margin: 15px 0;
+            animation: slideIn 1s ease-out;
+            background-color: #f4f4f4;
+            padding: 10px 15px;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Hover effects for list items */
+        li:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Add colors for different stock statuses */
+        .low-stock {
+            background-color: #fff4e3;
+            border-left: 5px solid #ff9800;
+            color: #ff9800;
+            font-weight: bold;
+        }
+
+        .out-of-stock {
+            background-color: #ffe3e3;
+            border-left: 5px solid #f44336;
+            color: #f44336;
+            font-weight: bold;
+        }
+
+        /* Animation for list items */
+        @keyframes slideIn {
+            0% {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Fade in effect for container */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Image styling */
+        .reminder-image {
+            width: 60%;
+            max-width: 350px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            animation: bounceIn 1.5s ease-in-out;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Bounce animation for images */
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            li {
+                font-size: 1.1rem;
+            }
+
+            .reminder-image {
+                width: 70%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Smart Grocery App Reminders</h1>
+
+        <img src="https://via.placeholder.com/350?text=Reminder+Image" alt="Reminder" class="reminder-image" />
+
+        <h2>Low Stock Items</h2>
+        <ul>
+            <li class="low-stock" th:each="item : ${lowStockItems}" th:text="${item.itemName} + ' (' + item.quantityWithUnit + ')'"></li>
+        </ul>
+
+        <h2>Out of Stock Items</h2>
+        <ul>
+            <li class="out-of-stock" th:each="item : ${outOfStockItems}" th:text="${item.itemName}"></li>
+        </ul>
+    </div>
+
+</body>
+</html>

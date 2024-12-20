@@ -20,8 +20,17 @@ public class User {
     @Column(nullable = false)
     private String password;
     
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<GroceryItem> groceryItems;
+    
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                // Excluding 'groceryItems' to avoid recursion
+                '}';
+    }
     
  // Getters and setters
     public Long getId() {
