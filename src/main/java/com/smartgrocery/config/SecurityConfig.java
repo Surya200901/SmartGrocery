@@ -5,6 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -28,7 +31,11 @@ public class SecurityConfig {
                 		"/index",
                 		"/grocery",
                 		"/updateGroceryItem/**",
-                		"/updateGroceryItem/{id}").permitAll() 
+                		"/updateGroceryItem/{id}",
+                		"/logout",
+                		"/profile",
+                		"/editprofile",
+                		"/static/**", "/css/**", "/js/**", "/images/**").permitAll() 
                 .anyRequest().authenticated()
             )
             .formLogin(login -> login
@@ -37,16 +44,12 @@ public class SecurityConfig {
                 .permitAll()
             )
             .logout(logout -> logout
-                .logoutSuccessUrl("/index")
-                .invalidateHttpSession(true)
-                .clearAuthentication(true)
-                .permitAll()
+                    .logoutUrl("/logout") // Ensure this matches your frontend request
+                    .logoutSuccessUrl("/index")
+                    .invalidateHttpSession(true)
+                    .clearAuthentication(true)
+                    .permitAll()
             )
-            .exceptionHandling(exceptionHandling -> exceptionHandling
-                    .authenticationEntryPoint((request, response, authException) -> {
-                        response.sendRedirect("/login"); // Redirect to login if user is not authenticated
-                    })
-                )
             .csrf(csrf -> csrf
                 .ignoringRequestMatchers("/updateGroceryItem/**")); // Disable CSRF for the specific endpoint
 

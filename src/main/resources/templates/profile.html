@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            color: #333;
+        }
+        header {
+            background: #222;
+            padding: 10px 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin-right: 15px;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        nav a:hover {
+            color: #ff7e5f;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #fff;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .profile-container {
+            background: #fff;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-out;
+            position: relative;
+        }
+        .profile-container:hover {
+            transform: scale(1.02);
+            transition: transform 0.3s ease;
+        }
+        p {
+            font-size: 18px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+        p i {
+            margin-right: 10px;
+            color: #ff7e5f;
+        }
+        a, button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 0;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        a {
+            background: #feb47b;
+            color: #fff;
+            text-align: center;
+        }
+        a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        button {
+            background: #ebbc65;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        .edit-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #feb47b;
+            color: #fff;
+            padding: 5px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+        .edit-icon:hover {
+            background: #ff7e5f;
+            transform: rotate(360deg);
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav>
+        <a href="/"><i class="fas fa-home"></i> Home</a>
+        <a href="/profile"><i class="fas fa-user"></i> Profile</a>
+        <a href="/groceryList"><i class="fas fa-list"></i> Grocery List</a>
+        <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </nav>
+</header>
+
+<h1>Your Profile</h1>
+
+<div class="profile-container">
+    <p><i class="fas fa-user"></i><strong>Full Name:</strong> <span th:text="${profile.fullName}">John Doe</span></p>
+    <p><i class="fas fa-birthday-cake"></i><strong>Age:</strong> <span th:text="${profile.age}">25</span></p>
+    <p><i class="fas fa-map-marker-alt"></i><strong>Address:</strong> <span th:text="${profile.address}">123 Main St</span></p>
+    <p><i class="fas fa-calendar-alt"></i><strong>Date of Birth:</strong> <span th:text="${profile.dob}">01-01-1999</span></p>
+    <a href="/editProfile" class="edit-icon" th:href="@{/profile/edit}" title="Edit Profile"><i class="fas fa-edit"></i></a>
+</div>
+
+<a href="/editProfile" th:href="@{/profile/edit}">Edit Profile</a>
+<form th:action="@{/profile}" method="post">
+    <input type="hidden" name="_method" value="delete" />
+    <button type="submit"><i class="fas fa-trash-alt"></i> Delete Profile</button>
+</form>
+</body>
+</html>

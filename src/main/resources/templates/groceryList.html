@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+	<meta name="_csrf" content="${_csrf.token}" />
+	<meta name="_csrf_header" content="${_csrf.headerName}" />
     <title>Grocery List</title>
     <link rel="stylesheet" href="styles.css">
     <style>
@@ -201,13 +204,13 @@
 </head>
 <body>
 <header>
-    <nav>
-        <a href="/">Home</a>
-        <a href="#">Profile</a>
-		<a href="/trackItems">Track Items</a>
-        <a href="/reminders">Reminders</a>
-        <a href="/">Logout</a>
-    </nav>
+	<nav>
+	    <a href="/"><i class="fas fa-home"></i> Home</a>
+	    <a href="/profile"><i class="fas fa-user"></i> Profile</a>
+	    <a href="/trackItems"><i class="fas fa-box"></i> Track Items</a>
+	    <a href="/reminders"><i class="fas fa-bell"></i> Reminders</a>
+	    <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+	</nav>
 </header>
 
 <div style="background: linear-gradient(to bottom right, #ffffff, #b2dfdb); padding: 20px; border-radius: 15px;">
@@ -309,6 +312,32 @@
             console.error("Item with ID " + id + " not found.");
         }
     }
+	
+	// **Logout Script**
+	function handleLogout() {
+	    console.log("handleLogout() function started"); 
+	    const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+	    const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
+	    fetch('/logout', {
+	        method: 'POST',
+	        headers: {
+	            [csrfHeader]: csrfToken,
+	            'Content-Type': 'application/json'
+	        }
+	    })
+	    .then(response => {
+	        if (response.ok) {
+	            window.location.href = "/"; 
+	        } else {
+	            throw new Error('Logout request failed with status: ' + response.status);
+	        }
+	    })
+	    .catch(error => {
+	        console.error('Logout failed:', error);
+	        alert('Logout failed. Please try again later.');
+	    });
+	}
 </script>
 </body>
 </html>
