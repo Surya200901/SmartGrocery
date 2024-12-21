@@ -8,93 +8,111 @@
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(to right, #ff7e5f, #feb47b);
-            color: #333;
+            background: linear-gradient(to bottom, #65d9eb, #6577eb);
+            color: #fff;
         }
         header {
-            background: #222;
-            padding: 10px 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            background: #111;
+            padding: 15px 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         nav a {
             color: #fff;
             text-decoration: none;
-            margin-right: 15px;
+            margin: 0 20px;
             font-weight: bold;
-            transition: color 0.3s ease;
+            transition: color 0.3s ease, transform 0.3s ease;
         }
         nav a:hover {
-            color: #ff7e5f;
+            color: #feb47b;
+            transform: scale(1.1);
+        }
+        nav a i {
+            margin-right: 8px;
         }
         h1 {
             text-align: center;
-            margin-top: 20px;
-            color: #fff;
-            font-size: 2.5rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin: 20px 0;
+            font-size: 3rem;
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+            animation: slideDown 1s ease-out;
         }
         .profile-container {
-            background: #fff;
-            margin: 20px auto;
-            padding: 20px;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            margin: 30px auto;
+            padding: 25px;
+            border-radius: 15px;
             max-width: 500px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            animation: fadeIn 1s ease-out;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1.5s ease-out;
             position: relative;
         }
         .profile-container:hover {
-            transform: scale(1.02);
-            transition: transform 0.3s ease;
+            transform: scale(1.03);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
         }
         p {
-            font-size: 18px;
-            margin: 10px 0;
+            font-size: 1.2rem;
+            margin: 15px 0;
             display: flex;
             align-items: center;
         }
         p i {
-            margin-right: 10px;
-            color: #ff7e5f;
+            margin-right: 12px;
+            color: #2575fc;
         }
         a, button {
             display: inline-block;
-            padding: 10px 20px;
-            margin: 10px 0;
+            padding: 12px 20px;
+            margin: 15px auto;
             text-decoration: none;
             font-weight: bold;
-            border-radius: 5px;
+            border-radius: 8px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         a {
-            background: #feb47b;
+            background: #a865eb;
             color: #fff;
             text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
         a:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
         }
         button {
-            background: #ebbc65;
+            background: #e74c3c;
             border: none;
             color: #fff;
             cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
         button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+            background: #c0392b;
         }
         .edit-icon {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 15px;
+            right: 15px;
             background: #feb47b;
             color: #fff;
-            padding: 5px;
+            padding: 10px;
             border-radius: 50%;
             cursor: pointer;
-            transition: background 0.3s ease, transform 0.3s ease;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
         .edit-icon:hover {
             background: #ff7e5f;
@@ -104,6 +122,16 @@
             from {
                 opacity: 0;
                 transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
             }
             to {
                 opacity: 1;

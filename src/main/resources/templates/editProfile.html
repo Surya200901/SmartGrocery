@@ -8,97 +8,183 @@
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(to right, #6a11cb, #2575fc);
-            color: #333;
+            background: linear-gradient(to bottom, #f7f7f7, #e3e9f1);
+            color: #444;
+            animation: fadeIn 1s ease-in-out;
         }
-        header {
-            background: #222;
-            padding: 10px 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            margin-right: 15px;
-            font-weight: bold;
-            transition: color 0.3s ease;
-        }
-        nav a:hover {
-            color: #feb47b;
-        }
-        nav a i {
-            margin-right: 5px;
-        }
-        h1 {
-            text-align: center;
-            margin-top: 20px;
-            color: #fff;
-            font-size: 2.5rem;
-        }
-        form {
-            background: #fff;
-            margin: 30px auto;
-            padding: 30px;
-            border-radius: 10px;
-            max-width: 600px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            animation: fadeIn 1s ease-out;
-        }
-        label {
-            font-size: 18px;
-            margin-top: 10px;
-            display: block;
-        }
-        label i {
-            margin-right: 8px;
-            color: #6a11cb;
-        }
-        input[type="text"], input[type="number"], input[type="date"] {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
-        }
-        input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus {
-            border-color: #feb47b;
-        }
-        button {
-            background: #feb47b;
-            color: #fff;
-            font-size: 18px;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-        }
-        button:hover {
-            transform: translateY(-3px);
-            background-color: #ff7e5f;
-        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
             }
         }
+
+        header {
+            background: #343a40;
+            padding: 15px 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        nav a {
+            color: #f8f9fa;
+            text-decoration: none;
+            margin-right: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #00aaff;
+        }
+
+        nav a i {
+            margin-right: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #343a40;
+            font-size: 2.8rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            animation: slideInDown 1s ease-out;
+        }
+
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        form {
+            background: #ffffff;
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 600px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            border-top: 5px solid #00aaff;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        label {
+            font-size: 16px;
+            margin-top: 15px;
+            display: block;
+            font-weight: bold;
+            color: #555;
+        }
+
+        label i {
+            margin-right: 8px;
+            color: #00aaff;
+        }
+
+        input[type="text"], input[type="number"], input[type="date"] {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            background-color: #f9f9f9;
+            transition: all 0.3s ease-in-out;
+        }
+
+        input[type="text"]:hover, input[type="number"]:hover, input[type="date"]:hover {
+            background-color: #e9f5fe;
+            box-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus {
+            border-color: #00aaff;
+            box-shadow: 0 0 5px rgba(0, 170, 255, 0.5);
+            background-color: #fff;
+        }
+
+        button {
+            font-size: 16px;
+            padding: 12px 25px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background: linear-gradient(to right, #00aaff, #0077cc);
+            color: #fff;
+            transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            background: #005f99;
+            box-shadow: 0 4px 10px rgba(0, 170, 255, 0.3);
+        }
+
+        button:active {
+            transform: scale(1.02);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .reset-button {
+            background: #e63946;
+        }
+
+        .reset-button:hover {
+            background: #c82333;
+        }
+
         @media screen and (max-width: 768px) {
             form {
                 padding: 20px;
                 width: 90%;
             }
+
             h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
         }
     </style>
+    <script>
+        // JavaScript function to clear form fields
+        function clearForm() {
+            document.getElementById('fullName').value = '';
+            document.getElementById('age').value = '';
+            document.getElementById('address').value = '';
+            document.getElementById('dob').value = '';
+        }
+    </script>
 </head>
 <body>
 <header>
@@ -114,20 +200,21 @@
 
 <form th:action="@{/profile}" method="post">
     <input type="hidden" th:value="${profile.id}" name="id" />
-    
+
     <label for="fullName"><i class="fas fa-user"></i> Full Name:</label>
-    <input type="text" id="fullName" th:value="${profile.fullName}" name="fullName" /><br>
+    <input type="text" id="fullName" th:value="${profile.fullName}" name="fullName" placeholder="Enter your full name" />
 
     <label for="age"><i class="fas fa-calendar-alt"></i> Age:</label>
-    <input type="number" id="age" th:value="${profile.age}" name="age" /><br>
+    <input type="number" id="age" th:value="${profile.age}" name="age" placeholder="Enter your age" />
 
     <label for="address"><i class="fas fa-map-marker-alt"></i> Address:</label>
-    <input type="text" id="address" th:value="${profile.address}" name="address" /><br>
+    <input type="text" id="address" th:value="${profile.address}" name="address" placeholder="Enter your address" />
 
     <label for="dob"><i class="fas fa-birthday-cake"></i> Date of Birth:</label>
-    <input type="date" id="dob" th:value="${profile.dob}" name="dob" /><br>
+    <input type="date" id="dob" th:value="${profile.dob}" name="dob" />
 
     <button type="submit"><i class="fas fa-save"></i> Save Changes</button>
+    <button type="button" class="reset-button" onclick="clearForm()"><i class="fas fa-undo"></i> Reset</button>
 </form>
 </body>
 </html>
