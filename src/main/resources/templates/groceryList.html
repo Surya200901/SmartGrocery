@@ -130,7 +130,7 @@
         footer {
             text-align: center;
             margin-top: auto;
-            padding: 20px;
+            padding: 20px 20px;
             background-color: #97c9ba;
             color: white;
         }
@@ -138,6 +138,18 @@
         footer p {
             margin: 0;
         }
+		
+		footer div a {
+		    margin: 0 10px; /* Adjust the value as needed for spacing */
+		    color: white;
+		    text-decoration: none;
+		    font-size: 18px;
+		    transition: color 0.3s ease;
+		}
+
+		footer div a:hover {
+		    color: #c04bf2; /* Optional: Add a hover effect */
+		}
 
         #searchBar {
             width: 100%;
@@ -257,6 +269,23 @@
             Developed by Surya_Settipalli
         </span>
     </p>
+	<div>
+	        <a href="mailto:settipallisurya1111@gmail.com">
+	            <i class="fas fa-envelope"></i> settipallisurya1111@gmail.com
+	        </a>
+	        <a href="https://www.instagram.com/invites/contact/?igsh=59l4geewekl5&utm_content=3cx3748" target="_blank">
+	            <i class="fab fa-instagram"></i>
+	        </a>
+	        <a href="https://wa.me/+919063250153" target="_blank">
+	            <i class="fab fa-whatsapp"></i>
+	        </a>
+	        <a href="https://github.com/Surya200901" target="_blank">
+	            <i class="fab fa-github"></i>
+	        </a>
+	        <a href="https://www.linkedin.com/in/surya-settipalli-87b0b4240" target="_blank">
+	            <i class="fab fa-linkedin"></i>
+	        </a>
+	    </div>
 </footer>
 
 <script>
@@ -315,28 +344,31 @@
 	
 	// **Logout Script**
 	function handleLogout() {
-	    console.log("handleLogout() function started"); 
-	    const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
-	    const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+	  const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+	  const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
 
-	    fetch('/logout', {
-	        method: 'POST',
-	        headers: {
-	            [csrfHeader]: csrfToken,
-	            'Content-Type': 'application/json'
-	        }
-	    })
-	    .then(response => {
-	        if (response.ok) {
-	            window.location.href = "/"; 
-	        } else {
-	            throw new Error('Logout request failed with status: ' + response.status);
-	        }
-	    })
-	    .catch(error => {
-	        console.error('Logout failed:', error);
-	        alert('Logout failed. Please try again later.');
-	    });
+	  fetch('/logout', {
+	    method: 'POST',
+	    headers: {
+	      [csrfHeader]: csrfToken,
+	      'Content-Type': 'application/json',
+	    },
+	  })
+	  .then(response => {
+	    if (!response.ok) {
+	      throw new Error('Logout request failed with status: ' + response.status);
+	    }
+	    return response.json(); // Assuming the server returns a JSON response
+	  })
+	  .then(data => {
+	    // Handle the server's response (if any)
+	    console.log('Logout successful:', data); 
+	    window.location.href = "/"; 
+	  })
+	  .catch(error => {
+	    console.error('Logout failed:', error);
+	    alert('Logout failed. Please try again later.');
+	  });
 	}
 </script>
 </body>

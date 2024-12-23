@@ -197,16 +197,37 @@
 	        }
 
 	        /* Footer */
-	        footer {
-	            margin-top: 40px;
-	            background: #00509e;
-	            color: white;
-	            padding: 20px;
-	            text-align: center;
-	            font-size: 1rem;
-	            border-radius: 10px;
-	            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-	        }
+			.footer {
+		            margin-top: 30px;
+		            padding: 15px;
+		            background: linear-gradient(135deg, #4A90E2, #FEB47B);
+		            color: white;
+		            border-radius: 0 0 15px 15px;
+		            font-size: 0.9rem;
+		            text-align: center;
+		        }
+
+		        .footer a {
+		            color: #fff;
+		            text-decoration: none;
+		            font-weight: bold;
+		            margin: 0 10px;
+		        }
+
+				footer a {
+	            color: #fff;
+	            text-decoration: none;
+	            margin: 0 10px;
+	            transition: color 0.3s ease;
+		        }
+	
+		        footer a:hover {
+		            color: #ed2121;
+		        }
+				
+				footer i {
+						    margin-right: 5px;
+						}
 
 	        /* Animations */
 	        @keyframes fadeInUp {
@@ -367,9 +388,23 @@
 		</div>
 
         <!-- Footer -->
-        <footer>
-            <p>© 2024 Smart Grocery App. All rights reserved.</p>
-        </footer>
+		<div class="footer">
+		<footer>
+		    <p>&copy; 2024 Smart Grocery List App. All Rights Reserved.
+				<span style="background: linear-gradient(to right, #42a5f5, #66bb6a);
+				            background-clip: text;
+				            -webkit-text-fill-color: transparent;
+				            font-weight: bold;">
+				            Developed by Surya_Settipalli
+		        </span>
+			</p>
+		    <a href="mailto:settipallisurya1111@gmail.com" ><i class="fas fa-envelope"></i> settipallisurya1111@gmail.com</a>
+		    <a href="https://www.instagram.com/invites/contact/?igsh=59l4geewekl5&utm_content=3cx3748" target="_blank"><i class="fab fa-instagram"></i></a>
+		    <a href="https://wa.me/+919063250153" target="_blank"><i class="fab fa-whatsapp"></i></a>
+		    <a href="https://github.com/Surya200901" target="_blank"><i class="fab fa-github"></i></a>
+		    <a href="https://www.linkedin.com/in/surya-settipalli-87b0b4240" target="_blank"><i class="fab fa-linkedin"></i></a>
+		   </footer> 
+        </div>
 
     </div>
 

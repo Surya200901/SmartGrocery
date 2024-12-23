@@ -4,26 +4,38 @@
     <title>Profile</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* Animated Background */
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(to bottom, #65d9eb, #6577eb);
+            background: linear-gradient(120deg, #65d9eb, #6577eb, #feb47b, #ff7e5f);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
             color: #fff;
         }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         header {
             background: #111;
             padding: 15px 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-            position: sticky;
+            position: relative;
             top: 0;
             z-index: 1000;
         }
+
         nav {
             display: flex;
             justify-content: center;
             align-items: center;
         }
+
         nav a {
             color: #fff;
             text-decoration: none;
@@ -31,13 +43,12 @@
             font-weight: bold;
             transition: color 0.3s ease, transform 0.3s ease;
         }
+
         nav a:hover {
             color: #feb47b;
             transform: scale(1.1);
         }
-        nav a i {
-            margin-right: 8px;
-        }
+
         h1 {
             text-align: center;
             margin: 20px 0;
@@ -45,6 +56,7 @@
             text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
             animation: slideDown 1s ease-out;
         }
+
         .profile-container {
             background: rgba(255, 255, 255, 0.9);
             color: #333;
@@ -56,21 +68,25 @@
             animation: fadeIn 1.5s ease-out;
             position: relative;
         }
+
         .profile-container:hover {
             transform: scale(1.03);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
         }
+
         p {
             font-size: 1.2rem;
             margin: 15px 0;
             display: flex;
             align-items: center;
         }
+
         p i {
             margin-right: 12px;
             color: #2575fc;
         }
+
         a, button {
             display: inline-block;
             padding: 12px 20px;
@@ -80,16 +96,19 @@
             border-radius: 8px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+
         a {
             background: #a865eb;
             color: #fff;
             text-align: center;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
+
         a:hover {
             transform: translateY(-4px);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
         }
+
         button {
             background: #e74c3c;
             border: none;
@@ -97,48 +116,94 @@
             cursor: pointer;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
+
         button:hover {
             transform: translateY(-4px);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
             background: #c0392b;
         }
-        .edit-icon {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #feb47b;
-            color: #fff;
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+
+		/* Modal Styling */
+		.modal {
+		    display: none;
+		    position: fixed;
+		    top: 0;
+		    left: 0;
+		    width: 100%; /* Corrected this line */
+		    height: 100%;
+		    background: rgba(0, 0, 0, 0.7);
+		    justify-content: center;
+		    align-items: center;
+		    z-index: 2000;
+		}
+
+        .modal-content {
+            background: #fff;
+            color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
         }
-        .edit-icon:hover {
-            background: #ff7e5f;
-            transform: rotate(360deg);
+
+        .modal-content button {
+            margin: 10px;
         }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: scale(0.9);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: scale(1);
             }
         }
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+
+        /* Footer Styling */
+		footer {
+				    background: #333;
+				    padding: 20px 20px;
+				    color: #fff;
+				    text-align: center;
+				    margin-top: 30px;
+				    display: flex;
+				    flex-direction: row;
+				    align-items: center;
+				}
+
+		footer div {
+		    margin-top: 10px;
+		}
+
+        footer a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s ease;
         }
+
+        footer a:hover {
+            color: #21edbd;
+        }
+		
+		footer i {
+				    margin-right: 5px;
+				}
+		
     </style>
+    <script>
+        // JavaScript for modal
+        function confirmDeletion() {
+            document.getElementById('deleteModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+        }
+    </script>
 </head>
 <body>
 <header>
@@ -161,9 +226,36 @@
 </div>
 
 <a href="/editProfile" th:href="@{/profile/edit}">Edit Profile</a>
-<form th:action="@{/profile}" method="post">
-    <input type="hidden" name="_method" value="delete" />
-    <button type="submit"><i class="fas fa-trash-alt"></i> Delete Profile</button>
-</form>
-</body>
+<button type="button" onclick="confirmDeletion()"><i class="fas fa-trash-alt"></i> Delete Profile</button>
+
+<!-- Modal -->
+<div class="modal" id="deleteModal">
+    <div class="modal-content">
+        <h2>Confirm Deletion</h2>
+        <p>Are you sure you want to delete your profile?</p>
+        <form th:action="@{/profile}" method="post">
+            <input type="hidden" name="_method" value="delete" />
+            <button type="submit">Yes, Delete</button>
+            <button type="button" onclick="closeModal()">Cancel</button>
+        </form>
+    </div>
+</div>
+
+   <footer>
+    <p>&copy; 2024 Smart Grocery List App. All Rights Reserved.
+		<span style="background: linear-gradient(to right, #42a5f5, #66bb6a);
+		            background-clip: text;
+		            -webkit-text-fill-color: transparent;
+		            font-weight: bold;">
+		            Developed by Surya_Settipalli
+        </span>
+	</p>
+    <a href="mailto:settipallisurya1111@gmail.com" ><i class="fas fa-envelope"></i> settipallisurya1111@gmail.com</a>
+    <a href="https://www.instagram.com/invites/contact/?igsh=59l4geewekl5&utm_content=3cx3748" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://wa.me/+919063250153" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    <a href="https://github.com/Surya200901" target="_blank"><i class="fab fa-github"></i></a>
+    <a href="https://www.linkedin.com/in/surya-settipalli-87b0b4240" target="_blank"><i class="fab fa-linkedin"></i></a>
+   </footer> 
+   
+</body> 
 </html>

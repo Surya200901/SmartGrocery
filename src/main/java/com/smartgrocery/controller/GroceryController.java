@@ -5,6 +5,9 @@ import com.smartgrocery.model.GroceryItemUpdateDTO;
 import com.smartgrocery.model.User;
 import com.smartgrocery.service.GroceryService;
 import com.smartgrocery.service.UserService;
+
+import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,16 +27,28 @@ public class GroceryController {
     @Autowired
     private UserService userService;
 
-    // Display the user's grocery list
-    @GetMapping("/groceryList")
-    public String showGroceryList(Model model, Principal principal) {
-        String username = principal.getName();
-        User user = userService.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
 
+    public GroceryController(UserService userService, GroceryService groceryService) {
+        this.userService = userService;
+        this.groceryService = groceryService;
+    }
+
+    @GetMapping("/groceryList")
+    public String showGroceryList(Model model, Principal principal, HttpServletResponse response) {
+        if (principal == null) {
+            return "redirect:/login"; // Redirect to login if not authenticated
+        }
+        // Existing logic for setting cache control and fetching data
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
+
+        String username = principal.getName();
+        User user = userService.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
         model.addAttribute("user", user);
         model.addAttribute("groceryItems", groceryService.getItemsByUser(user));
         model.addAttribute("newGroceryItem", new GroceryItem());
-
         return "groceryList";
     }
 
