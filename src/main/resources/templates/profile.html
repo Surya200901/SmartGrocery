@@ -212,10 +212,10 @@
 <body>
 <header>
     <nav>
-        <a href="https://smart-grocery.onrender.com/"><i class="fas fa-home"></i> Home</a>
-        <a href="https://smart-grocery.onrender.com/profile"><i class="fas fa-user"></i> Profile</a>
-        <a href="https://smart-grocery.onrender.com/groceryList"><i class="fas fa-list"></i> Grocery List</a>
-        <a href="https://smart-grocery.onrender.com/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        <a href="/"><i class="fas fa-home"></i> Home</a>
+        <a href="/profile"><i class="fas fa-user"></i> Profile</a>
+        <a href="/groceryList"><i class="fas fa-list"></i> Grocery List</a>
+        <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </nav>
 </header>
 
@@ -226,10 +226,10 @@
     <p><i class="fas fa-birthday-cake"></i><strong>Age:</strong> <span th:text="${profile.age}">25</span></p>
     <p><i class="fas fa-map-marker-alt"></i><strong>Address:</strong> <span th:text="${profile.address}">123 Main St</span></p>
     <p><i class="fas fa-calendar-alt"></i><strong>Date of Birth:</strong> <span th:text="${profile.dob}">01-01-1999</span></p>
-    <a href="https://smart-grocery.onrender.com/editProfile" class="edit-icon" th:href="@{/profile/edit}" title="Edit Profile"><i class="fas fa-edit"></i></a>
+    <a href="/editProfile" class="edit-icon" th:href="@{/profile/edit}" title="Edit Profile"><i class="fas fa-edit"></i></a>
 </div>
 
-<a href="https://smart-grocery.onrender.com/editProfile" th:href="@{/profile/edit}">Edit Profile</a>
+<a href="/editProfile" th:href="@{/profile/edit}">Edit Profile</a>
 <button type="button" onclick="confirmDeletion()"><i class="fas fa-trash-alt"></i> Delete Profile</button>
 
 <!-- Modal -->

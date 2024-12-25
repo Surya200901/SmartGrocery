@@ -221,11 +221,11 @@
 <body>
 <header>
 	<nav>
-	    <a href="https://smart-grocery.onrender.com/"><i class="fas fa-home"></i> Home</a>
-	    <a href="https://smart-grocery.onrender.com/profile"><i class="fas fa-user"></i> Profile</a>
-	    <a href="https://smart-grocery.onrender.com/trackItems"><i class="fas fa-box"></i> Track Items</a>
-	    <a href="https://smart-grocery.onrender.com/reminders"><i class="fas fa-bell"></i> Reminders</a>
-	    <a href="https://smart-grocery.onrender.com/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+	    <a href="/"><i class="fas fa-home"></i> Home</a>
+	    <a href="/profile"><i class="fas fa-user"></i> Profile</a>
+	    <a href="/trackItems"><i class="fas fa-box"></i> Track Items</a>
+	    <a href="/reminders"><i class="fas fa-bell"></i> Reminders</a>
+	    <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
 	</nav>
 </header>
 
@@ -308,43 +308,40 @@
         
         const itemElement = document.getElementById(`groceryItem-${id}`);
 
-        // Check if itemElement exists
-        if (itemElement) {
-            const itemNameElement = itemElement.querySelector('.item-name');
-            const quantityElement = itemElement.querySelector('.quantity');
-
-            const currentItemName = itemNameElement.textContent.trim();
-            const currentQuantity = quantityElement ? quantityElement.textContent.trim() : '';
-
-            const newItemName = prompt('Edit Item Name:', currentItemName);
-            const newQuantity = prompt('Edit Quantity:', currentQuantity);
-
-            if (newItemName && newQuantity) {
-                fetch(`/updateGroceryItem/${id}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        itemName: newItemName,
-                        quantity: newQuantity,
-                    }),
-                }).then(response => {
-                    if (response.ok) {
-                        alert("Item updated successfully");
-                        itemNameElement.textContent = newItemName;
-                        quantityElement.textContent = newQuantity;
-                    } else {
-                        alert('Failed to update item');
-                    }
-                }).catch(error => {
-                    alert('Error: ' + error);
-                });
-            }
-        } else {
-            console.error("Item with ID " + id + " not found.");
-        }
-    }
+		    // Check if itemElement exists
+		    if (itemElement) {
+		        const itemNameElement = itemElement.querySelector('.item-name');
+		        const quantityElement = itemElement.querySelector('.quantity');
+		        const currentItemName = itemNameElement.textContent.trim();
+		        const currentQuantity = quantityElement ? quantityElement.textContent.trim() : '';
+		        const newItemName = prompt('Edit Item Name:', currentItemName);
+		        const newQuantity = prompt('Edit Quantity:', currentQuantity);
+		        if (newItemName && newQuantity) {
+		            fetch(`/updateGroceryItem/${id}`, {
+		                method: 'POST',
+		                headers: {
+		                    'Content-Type': 'application/json',
+		                },
+		                body: JSON.stringify({
+		                    itemName: newItemName,
+		                    quantity: newQuantity,
+		                }),
+		            }).then(response => {
+		                if (response.ok) {
+		                    alert("Item updated successfully");
+		                    itemNameElement.textContent = newItemName;
+		                    quantityElement.textContent = newQuantity;
+		                } else {
+		                    alert('Failed to update item');
+		                }
+		            }).catch(error => {
+		                alert('Error: ' + error);
+		            });
+		        }
+		    } else {
+		        console.error("Item with ID " + id + " not found.");
+		    }
+		}
 	
 	// **Logout Script**
 	function handleLogout() {

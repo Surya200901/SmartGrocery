@@ -8,7 +8,7 @@
 		<version>3.4.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.paniwedspuri</groupId>
+	<groupId>com.smartgrocery</groupId>
 	<artifactId>SmartGrocery</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>SmartGrocery</name>
