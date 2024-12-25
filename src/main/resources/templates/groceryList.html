@@ -4,6 +4,10 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 	<meta name="_csrf" content="${_csrf.token}" />
 	<meta name="_csrf_header" content="${_csrf.headerName}" />
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+
     <title>Grocery List</title>
     <link rel="stylesheet" href="styles.css">
     <style>
@@ -344,31 +348,28 @@
 	
 	// **Logout Script**
 	function handleLogout() {
-	  const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
-	  const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+	    const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+	    const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
 
-	  fetch('/logout', {
-	    method: 'POST',
-	    headers: {
-	      [csrfHeader]: csrfToken,
-	      'Content-Type': 'application/json',
-	    },
-	  })
-	  .then(response => {
-	    if (!response.ok) {
-	      throw new Error('Logout request failed with status: ' + response.status);
-	    }
-	    return response.json(); // Assuming the server returns a JSON response
-	  })
-	  .then(data => {
-	    // Handle the server's response (if any)
-	    console.log('Logout successful:', data); 
-	    window.location.href = "/"; 
-	  })
-	  .catch(error => {
-	    console.error('Logout failed:', error);
-	    alert('Logout failed. Please try again later.');
-	  });
+	    fetch('/logout', {
+	        method: 'POST',
+	        headers: {
+	            [csrfHeader]: csrfToken,
+	            'Content-Type': 'application/json',
+	        },
+	    })
+	    .then(response => {
+	        if (!response.ok) {
+	            throw new Error('Logout request failed with status: ' + response.status);
+	        }
+	        // Update history to prevent back navigation
+	        window.history.replaceState(null, null, '/index');
+	        window.location.href = "/index"; 
+	    })
+	    .catch(error => {
+	        console.error('Logout failed:', error);
+	        alert('Logout failed. Please try again later.');
+	    });
 	}
 </script>
 </body>
